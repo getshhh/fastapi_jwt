@@ -1,10 +1,12 @@
 from sqlalchemy.orm import Session
 from models.User import User
 from fastapi import HTTPException
+from jwt.JWT import OAuth2PasswordBearer
 
 
 
-def register_user(db: Session, login: str, password: str):
+
+def register_user(db: Session, login, password) -> str:
     is_admin = login.lower() == 'admin'
     user = User(login=login, password=password, admins=is_admin)
     db.add(user)
@@ -13,7 +15,7 @@ def register_user(db: Session, login: str, password: str):
     return user
 
 
-def login_user(db: Session, login: str, password: str):
+def login_user(db: Session, login, password) -> str:
     user = db.query(User).filter(User.login == login, User.password == password).first()
     if not user:
         raise HTTPException(status_code=402, detail="Неверные данные")
