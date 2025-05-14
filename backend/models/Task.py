@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+"""from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from datetime import datetime
 from sqlalchemy.orm import relationship
 from db.db import Base
@@ -22,3 +22,4 @@ class Task(Base):
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship("User", back_populates="tasks")
     created_at = Column(DateTime, default=datetime.utcnow)
+"""

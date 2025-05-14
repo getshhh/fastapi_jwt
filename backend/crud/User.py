@@ -3,20 +3,23 @@ from models.User import User
 from fastapi import HTTPException
 
 
-def create_user(db: Session, name: str, email: str):
-    user = User(name=name, email=email)
+
+def register_user(db: Session, login: str, password: str):
+    is_admin = login.lower() == 'admin'
+    user = User(login=login, password=password, admins=is_admin)
     db.add(user)
     db.commit()
     db.refresh(user)
     return user
 
-def get_user(db: Session):
-    return db.query(User).all() #добавить проверку по наличию и ошибка
+
+def login_user(db: Session, login: str, password: str):
+    user = db.query(User).filter(User.login == login, User.password == password).first()
+    if not user:
+        raise HTTPException(status_code=402, detail="Неверные данные")
+    return user
 
 
-def delete_user(task_id: int, db: Session):
-    check = db.query(User).get(task_id)
-    check.task_id = task_id
-    db.delete(check)
-    db.commit()
-    return f"Удаленн пользователь"
+def info_me(db: Session, id: int):
+    user = db.query(User).get(id)
+    return user
