@@ -24,7 +24,7 @@ def create_access_token(data:dict, expires_delta: timedelta | None=None ):
     print(f"Сгенерированный токен: {encoded_token}")
     return encoded_token
 
-def verify_token(token: dict) -> str:
+def verify_token(token: str) -> dict:
     try:
         payload = jwt.decode(token, secret_key, algorithms=[ALG])
         return payload
@@ -33,5 +33,7 @@ def verify_token(token: dict) -> str:
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Неверный токен"
         )
+    
+
     
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")

@@ -11,3 +11,4 @@ class User(Base):
     password = Column(String, unique = True)
     created_at = Column(DateTime, default=datetime.utcnow)
     admins = Column(Boolean, default=False)
+    tasks = relationship("Task", back_populates="user")
